@@ -1,0 +1,19 @@
+[submodule "dep/entt"]
+	path = dep/entt
+	url = https://github.com/skypjack/entt.git
+[submodule "dep/robin-map"]
+	path = dep/robin-map
+	url = https://github.com/Tessil/robin-map.git
+	branch = cmake_disable_install_option
+[submodule "dep/fpng"]
+	path = dep/fpng
+	url = https://github.com/richgel999/fpng.git
+[submodule "dep/glew"]
+	path = dep/glew
+	url = https://github.com/Perlmint/glew-cmake
+[submodule "dep/sdl2"]
+	path = dep/sdl2
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "dep/tweeny"]
+	path = dep/tweeny
+	url = https://github.com/mobius3/tweeny.git
