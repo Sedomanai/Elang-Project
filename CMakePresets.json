@@ -6,11 +6,12 @@
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
+            "installDir": "${sourceDir}/ext",
             "cacheVariables": {
               "CMAKE_C_COMPILER": "cl.exe",
               "CMAKE_CXX_COMPILER": "cl.exe",
-              "ELANG_INSTALLATION": false
+              "ELANG_INSTALLATION": false,
+              "ELANG_GUI" : true
             },
             "condition": {
                 "type": "equals",

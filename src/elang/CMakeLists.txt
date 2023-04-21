@@ -1,7 +1,5 @@
 
 target_sources(${EL_TARGET} PUBLIC
-	"engine.cpp"
-
 	"assets/atlas.cpp"
 	"assets/camera.cpp"
 	"assets/cell.cpp"
@@ -34,3 +32,12 @@ target_sources(${EL_TARGET} PUBLIC
 
 	"tools/controls.cpp"
 )
+
+if (ELANG_GUI)
+	add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/gui")
+	set(EL_GUI_UI_LIST ${EL_GUI_UI_LIST} PARENT_SCOPE)
+else()
+	target_sources(${EL_TARGET} PUBLIC
+		"engine.cpp"
+	)
+endif()

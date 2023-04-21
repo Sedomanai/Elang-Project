@@ -1,7 +1,8 @@
 /.vs
-out/build/**/*
 /inc
-/lib/**/*
-/ext/**/*
+/lib
+/ext
+/qto
+/out
 /bin/Debug/
-/bin/Release
+/bin/Release/
