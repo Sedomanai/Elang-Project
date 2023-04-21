@@ -7,6 +7,7 @@
 #include "../assets/material.h"
 #include "../systems/painter.h"
 #include "../registry/stage.h"
+#include "../registry/asset.h"
 
 namespace el
 {
@@ -38,7 +39,12 @@ namespace el
 		if (Visage::material && Visage::material->hasTexture()) {
 			auto tex = Visage::material->textures[0];
 			if (tex->atlas) {
-				mCell = tex->atlas->cells[value];
+				auto it = tex->atlas->cells.find(value);
+				if (it != tex->atlas->cells.end()) {
+					mCell = tex->atlas->cells[value];
+				} else {
+					cout << "There's no cell named '" << value << "' in atlas " << tex->atlas.get<AssetData>().filePath << endl;
+				}
 			}
 		}
 	}

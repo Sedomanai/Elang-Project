@@ -41,13 +41,15 @@ namespace el
 		void connect(std::function<void(Arg...)> function) {
 			mSlots.push_back(function);
 		}
+
 		//void connect(void(*function)(Arg... arg)) {
 		//	mSlots.push_back(function);
 		//}
-		//template<typename T>
-		//void connect(T* instance, void(T::* method)(Arg... arg)) {
-		//	mSlots.push_back([instance, method](Arg... arg) { ((*instance).*method)(arg...); });
-		//}
+
+		template<typename T>
+		void connect(T* instance, void(T::* method)(Arg... arg)) {
+			mSlots.push_back([instance, method](Arg... arg) { ((*instance).*method)(arg...); });
+		}
 
 		/**
 		 * @brief Clear all slots.
@@ -80,10 +82,11 @@ namespace el
 		//void connect(void(*function)(Arg... arg)) {
 		//	mSlot = function;
 		//}
-		//template<typename T>
-		//void connect(T& instance, void(T::* method)(Arg... arg)) {
-		//	mSlot = [&instance, method](Arg... arg) { (instance.*method)(arg...); };
-		//}
+		
+		template<typename T>
+		void connect(T& instance, void(T::* method)(Arg... arg)) {
+			mSlot = [&instance, method](Arg... arg) { (instance.*method)(arg...); };
+		}
 		void disconnect() { mSlot.swap(); }
 	private:
 		std::function<void(Arg...)> mSlot;

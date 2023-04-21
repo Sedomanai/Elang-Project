@@ -37,6 +37,8 @@ namespace el
 			label->setMinimumSize(size());
 
 			mWidget->show();
+		} else {
+			cout << "Logo not loaded... check path " << string(logoImagePath.toUtf8().constData()) << endl;
 		}
 		
 		// don't ask why
@@ -49,8 +51,8 @@ namespace el
 					glewInit();
 					AssetLoader loader;
 					cout << "Importing Native GUI..." << endl;
-					loader.initNativeGUI();
-					loader.importAllNativeGUIAssets();
+					loader.initCommonAssets();
+					loader.importAllGUIAssets();
 					sig_Loaded.invoke();
 				}
 			}

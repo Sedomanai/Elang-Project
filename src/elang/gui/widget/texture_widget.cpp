@@ -38,7 +38,7 @@ namespace el
 
 			glClearColor(0.2f, 0.3f, 0.2f, 1.0f);
 			if (!mPainter) {
-				mPainter = gProject.make<Painter>("__el_editor_/shader/basic_sprite.vert", "__el_editor_/shader/texture_uv.frag",
+				mPainter = gProject.make<Painter>("shaders/basic_sprite.vert", "shaders/texture_uv.frag",
 					100000, mMainCam, Projection::eOrtho,
 					ePainterFlags::DEPTH_SORT | ePainterFlags::MULTI_MATERIAL | ePainterFlags::Z_CLEAR).add<EditorAsset>();
 				mPainter->init();

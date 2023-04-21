@@ -44,10 +44,10 @@ namespace el {
 		if (accepted) {
 			bind(project);
 			project.reset();
-			project.name = ui.projectName->text().toStdString();
-			project.assetDir = ui.assetDir->text().toStdString();
-			project.srcDir = ui.srcDir->text().toStdString();
-			project.datDir = ui.datDir->text().toStdString();
+			project.name = ui.projectName->text().toUtf8().constData();
+			project.assetDir = ui.assetDir->text().toUtf8().constData();
+			project.srcDir = ui.srcDir->text().toUtf8().constData();
+			project.datDir = ui.datDir->text().toUtf8().constData();
 			project.internalBinary = ui.internalBinary->isChecked();
 
 			//auto cam = gProject->make<Camera>(gProject->cameras, "Main Camera");

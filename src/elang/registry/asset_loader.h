@@ -15,10 +15,15 @@ namespace el
 {
 	struct GUIAsset { fio::path filePath; GUIAsset(const fio::path& key_) : filePath(key_) {}; };
 	struct EditorAsset {};
+	struct CommonAsset {};
 	struct AssetLoader
 	{
 		AssetLoader();
 
+		/**
+		 * @brief * Initialize common shaders that will be used for both editor and export builds.
+		 */
+		void initCommonAssets();
 		/**
 		 * @brief * Elang native GUI assets are synced only once per start of the program. Used by Elang GUI only. 
 		 * If you made any changes to the GUI, you will have restarted the program to implement it anyway. 
@@ -32,7 +37,7 @@ namespace el
 		 * Possibly even before the creation of GUI application.
 		 * The source (file) location for all native GUI related loader method code may change in the future.
 		 */
-		void initNativeGUI();
+		void initGUIAssets(bool import = true);
 
 		/**
 		 * @brief This is for GUI assets that are created in the editor.
@@ -56,7 +61,7 @@ namespace el
 		 * It should not be fired more than once.
 		 * This may or may not be enough for the GUI program. You may have to create or import various others along the way.
 		 */
-		void importAllNativeGUIAssets();
+		void importAllGUIAssets();
 
 		// removed - only two lines
 		//asset<Material> createSingleTextureNativeGUIMaterial(const string& name, asset<Texture> tex) {
@@ -109,8 +114,24 @@ namespace el
 		// This is exposed to deal with individual files and to import/export/save them
 		AssetSync sync;
 	private:
-		fio::path mGUIAssetPath;
+		fio::path mGUIAssetPath, mCommonAssetPath;
 		bool mGUIImported;
+
+		template<typename T, typename M>
+		void importCommonAsset(fio::path path, AssetDatabase& base) {
+			auto key = fio::relative(path, mCommonAssetPath);
+			auto commonAsset = gProject.make<T>().add<M>().add<CommonAsset>();
+			commonAsset.get<T>().importFile(mCommonAssetPath / key, commonAsset.get<M>());
+			base.names[key] = commonAsset;
+		}
+
+
+		template<typename T, typename M>
+		void initNativeGUIAsset(fio::path path, AssetDatabase& base) {
+			auto key = fio::relative(path, mGUIAssetPath);
+			auto guiAsset = gProject.make<T>().add<M>().add<EditorAsset>().add<GUIAsset>(key);
+			base.names[key] = guiAsset;
+		}
 
 		template<typename T, typename M>
 		void importNativeGUIAssets() {
@@ -120,13 +141,6 @@ namespace el
 					data.get<T>().importFile(path, data.get<M>());
 				}
 			}
-		}
-
-		template<typename T, typename M>
-		void initNativeGUIAsset(fio::path path, AssetDatabase& base) {
-			auto key = fio::relative(path, mGUIAssetPath);
-			auto editorAsset = gProject.make<T>().add<M>().add<EditorAsset>().add<GUIAsset>(key);
-			base.names[key] = editorAsset;
 		}
 
 		void cleanAllAssets();

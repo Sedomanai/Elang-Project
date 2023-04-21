@@ -9,7 +9,25 @@
 
 namespace el
 {
-	AssetLoader::AssetLoader() : mGUIAssetPath("../gui"), mGUIImported(false) {}
+	AssetLoader::AssetLoader() : mGUIAssetPath("../__el_gui"), mCommonAssetPath("../__el_common"), mGUIImported(false) {}
+
+	void AssetLoader::initCommonAssets() {
+		static bool shadered = false;
+		if (!shadered) {
+			shadered = true;
+			for (auto e : fio::recursive_directory_iterator(mCommonAssetPath)) {
+				if (!e.is_directory()) {
+					auto path = e.path();
+					auto ext = path.extension();
+					if (ext == ".vert") {
+						importCommonAsset<VertexShader, ShaderMeta>(path, gShaders);
+					} else if (ext == ".frag") {
+						importCommonAsset<FragmentShader, ShaderMeta>(path, gShaders);
+					}
+				}
+			};
+		}
+	}
 
 	/**
 		* Elang native GUI assets are synced only once per start of the program. Used by Elang GUI only.
@@ -23,7 +41,7 @@ namespace el
 		* Possibly even before the creation of GUI application.
 		* The source (file) location for all native GUI related loader method code may change in the future.
 		*/
-	void AssetLoader::initNativeGUI() {
+	void AssetLoader::initGUIAssets(bool import) {
 		for (auto e : fio::recursive_directory_iterator(mGUIAssetPath)) {
 			if (!e.is_directory()) {
 				auto path = e.path();
@@ -38,6 +56,10 @@ namespace el
 				}
 			}
 		};
+
+		if (import) {
+			importAllGUIAssets();
+		}
 	}
 
 
@@ -46,7 +68,7 @@ namespace el
 		* This must be called the very first thing OpenGL (or any ) is first initialized. This will not fire twice.
 		* This may or may not be enough for the GUI program. You may have to create or import various others along the way.
 		*/
-	void AssetLoader::importAllNativeGUIAssets() {
+	void AssetLoader::importAllGUIAssets() {
 		if (!mGUIImported) {
 			Painter::sCreateNullTexture();
 
@@ -55,24 +77,6 @@ namespace el
 			importNativeGUIAssets<Texture, TextureMeta>();
 
 			auto main_editor_cam = createNativeGUIAsset<Camera>("main_cam", gCameras);
-			//createNativeGUIAsset<Painter>(
-			//	"sprite_painter", gPainters, 
-			//	"__el_editor_/shader/basic_sprite.vert", 
-			//	"__el_editor_/shader/raw_pass.frag", 
-			//	36, main_editor_cam, 
-			//	Projection::eOrtho, ePainterFlags::DEPTH_SORT | ePainterFlags::MULTI_MATERIAL | ePainterFlags::Z_READ_ONLY
-			//)->init();
-
-			//auto debug = createNativeGUIAsset<Painter>(
-			//	"debug_painter", gPainters,
-			//	"__el_editor_/shader/debug.vert",
-			//	"__el_editor_/shader/debug.frag",
-			//	36, main_editor_cam,
-			//	Projection::eOrtho, ePainterFlags::DEPTH_SORT | ePainterFlags::MULTI_MATERIAL | ePainterFlags::Z_READ_ONLY
-			//	);
-			//debug->drawtype = GL_LINES;
-			//debug->init();
-
 			mGUIImported = true;
 		}
 	}

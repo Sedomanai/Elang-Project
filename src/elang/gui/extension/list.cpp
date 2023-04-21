@@ -18,7 +18,7 @@ namespace el {
 	}
 
 	QString QListExtension::getNoneConflictingName(const QString& name_, bool self_compare) {
-		auto name = name_.toUtf8();
+		string name = name_.toUtf8().constData();
 		auto curr = currentItem();
 
 		string num; num.reserve(32);
@@ -29,7 +29,7 @@ namespace el {
 		for (uint i = 0; i < count(); i++) {
 			auto it = item(i);
 			if (!self_compare || it != curr) {
-				auto comp = it->text().toStdString();
+				string comp = it->text().toUtf8().constData();
 
 				auto it = comp.find(name);
 				if (it == 0) {

@@ -379,6 +379,17 @@ namespace el
 
 
 	void Painter::bindShaderBuffer() {
+
+		//for (auto it = gShaders.names.begin(); it != gShaders.names.end(); it++) {
+		//	cout << it->first << " " << (int)it->second << endl;
+		//}
+
+		//cout << "Check if " << mVertLabel << " exists..." << endl;
+		//if (gShaders.names.contains(mVertLabel)) {
+		//	cout << "At least " << mVertLabel << " exists..." << endl;
+		//}
+
+
 		if (gShaders.names.contains(mVertLabel)) {
 			mVert = &*(asset<VertexShader>(gShaders.names[mVertLabel]));
 		} else {
@@ -470,9 +481,9 @@ namespace el
 	/////
 
 	ShapeDebug2d::ShapeDebug2d() : mInit(false),
-		point("__el_editor_/shader/debug2d.vert", "__el_editor_/shader/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR),
-		line("__el_editor_/shader/debug2d.vert", "__el_editor_/shader/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR),
-		fill("__el_editor_/shader/debug2d.vert", "__el_editor_/shader/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR) {
+		point("shaders/debug2d.vert", "shaders/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR),
+		line("shaders/debug2d.vert", "shaders/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR),
+		fill("shaders/debug2d.vert", "shaders/debug2d.frag", 100000, NullEntity, Projection::eOrtho, ePainterFlags::Z_CLEAR) {
 	};
 
 	ShapeDebug2d::~ShapeDebug2d() {
