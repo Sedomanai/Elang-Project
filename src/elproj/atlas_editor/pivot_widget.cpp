@@ -455,6 +455,25 @@ namespace el
 		} update();
 	}
 
+	void PivotView::jumpToCell() {
+		QDialog dialog;
+		AtlasPalette palette(&dialog, true);
+
+		palette.updateAtlas(gAtlasUtil.currentMaterial->textures[0]->atlas);
+		palette.updateMaterial(gAtlasUtil.currentMaterial, gAtlasUtil.globalPalettePositon, gAtlasUtil.globalPaletteScale);
+		palette.sig_Clicked.connect([&](asset<Cell> cell) {
+			int row = cell.get<SubAssetData>().index;
+			auto& list = *gAtlasUtil.cellList;
+			row = clamp(row, 0, list.count() - 1);
+			list.setCurrentRow(row);
+			dialog.close();
+		});
+		dialog.exec();
+		gAtlasUtil.globalPalettePositon = palette.camPosition();
+		gAtlasUtil.globalPaletteScale = palette.camScale();
+		update();
+	}
+
 	void PivotView::ghostPalette() {
 		if (mGhostData.type != ElangAtlasGhostData::eType::EXTERNAL) { // NONE || PREVIOUS
 			mGhostData.material = gAtlasUtil.currentMaterial;

@@ -165,6 +165,8 @@ namespace el
 
 		mPivotToolbar1->addSeparator();
 
+		auto jumpCell = mPivotToolbar1->addAction("Jump Cell", [&]() { mPivotView->jumpToCell(); });
+		jumpCell->setShortcut(QKeySequence(Qt::Key_Space));
 		auto prevCell = mPivotToolbar1->addAction("Prev Cell", [&]() { mPivotView->shiftCell(-1); });
 		prevCell->setShortcut(QKeySequence(Qt::Key_Q));
 		auto nextCell = mPivotToolbar1->addAction("Next Cell", [&]() { mPivotView->shiftCell(1); });
@@ -186,7 +188,7 @@ namespace el
 		auto captureGhost = mPivotToolbar2->addAction("Capture Ghost", [&]() { mPivotView->captureGhost(); });
 		captureGhost->setShortcut(QKeySequence(Qt::Key_C));
 		auto paletteGhost = mPivotToolbar2->addAction("Palette Ghost", [&]() { mPivotView->ghostPalette(); });
-		paletteGhost->setShortcut(QKeySequence(Qt::Key_Space));
+		paletteGhost->setShortcut(QKeySequence(Qt::Key_X));
 
 		mPivotToolbar2->addSeparator();
 

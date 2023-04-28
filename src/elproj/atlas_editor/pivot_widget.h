@@ -47,6 +47,7 @@ namespace el
 		void moveCurrentCell();
 		void drawCellHitbox(bool batchOnly = false);
 		void incrementPivot(int x, int y);
+		void jumpToCell();
 		void shiftCell(int dir);
 		void setPreviousGhost();
 		void captureGhost();
