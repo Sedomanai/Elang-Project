@@ -7,12 +7,17 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/ext",
-            "cacheVariables": {
-              "CMAKE_C_COMPILER": "cl.exe",
-              "CMAKE_CXX_COMPILER": "cl.exe",
-              "ELANG_INSTALLATION": false,
-              "ELANG_GUI" : true
-            },
+              "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+
+                // Make sure to set the appropriate CMAKE_TOOLCHAIN_FILE or CMAKE_PREFIX_PATH or whatever you need to find your packages.
+                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-windows",
+
+                // Set this to false if you're using SDL. True if Qt.
+                "ELANG_GUI": true
+              },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",

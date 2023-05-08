@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_TEXTURE_WIDGET_H
-#define UI_TEXTURE_WIDGET_H
+#ifndef TEXTURE_WIDGET_UI_H
+#define TEXTURE_WIDGET_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -72,4 +72,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_TEXTURE_WIDGET_H
+#endif // TEXTURE_WIDGET_UI_H

@@ -2,11 +2,12 @@
 #include "logo.h"
 
 #include "elang/registry/asset_loader.h"
-
+#include <QDebug>
+#include <QImageReader>
 namespace el
 {
 	QElangLogo::QElangLogo(QString logoImagePath, QWidget* parent)
-		: QWidget(parent) {
+		: QWidget(parent), mWidget(0) {
 		setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 		setAttribute(Qt::WA_NoSystemBackground);
 		setAttribute(Qt::WA_TranslucentBackground);
@@ -61,8 +62,10 @@ namespace el
 
 	void QElangLogo::closeEvent(QCloseEvent* e) {
 		mLogo = QImage();
-		delete mWidget;
-		mWidget = 0;
+		if (mWidget) {
+			delete mWidget;
+			mWidget = 0;
+		}
 	}
 
 	QElangLogo::~QElangLogo() {

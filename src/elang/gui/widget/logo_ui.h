@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_LOGO_H
-#define UI_LOGO_H
+#ifndef LOGO_UI_H
+#define LOGO_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -57,4 +57,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_LOGO_H
+#endif // LOGO_UI_H

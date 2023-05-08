@@ -1,0 +1,29 @@
+﻿
+ This git had decided not to bother with how you install your dependencies.
+
+ Normally this directory has had a bunch of directory submodules but ever since switching to vcpkg there disappeared any need for it.
+ I personally use vcpkg, but you can use conan or manually build them from scratch via pulling their sources.
+
+ The current list of dependency is as follows: 
+
+	entt:x64-windows                                  3.11.1              Gaming meets modern C++ - a fast and reliable en...
+	glew:x64-windows                                  2.2.0#3             The OpenGL Extension Wrangler Library (GLEW) is ...
+	qtbase:x64-windows                                6.5.0#1             Qt Application Framework Base Module. Includes C...
+	  qtbase[gui]:x64-windows                                               Qt Gui
+	  qtbase[opengl]:x64-windows                                            OpenGL
+	  qtbase[widgets]:x64-windows                                           Qt Widgets
+	robin-map:x64-windows                             1.2.1               A C++ implementation of a fast hash map and hash...
+	sdl2:x64-windows                                  2.26.5              Simple DirectMedia Layer is a cross-platform dev...
+	tweeny:x64-windows                                3.2.0#1             A modern C++ tweening library
+	
+Qt/SDL is optional. If you need the GUI utils then you need Qt. 
+If you need the engine.cpp for non-gui standalones then SDL.
+
+The rest is mandatory for this engine.
+	
+!! THERE IS ONE EXCEPTION !!
+ Unfortunately, fpng has neither a vcpkg nor a conan registration. 
+ In fact, while it does seem to support cmake, the recommended way is to actually copy paste its source/header files.
+ I'm considering just having the fpng sources in my src folder but I didn't check the license requirements yet.
+
+ Therefore, I'm leaving fpng hub in the dep folder. The root CMakeList.txt will handle installing it for you. For now.

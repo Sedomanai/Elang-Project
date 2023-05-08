@@ -51,7 +51,7 @@ namespace el
 	 * @brief Used to sync any asset. For more specific behaviors, check its methods.
 	 *	
 	 *		  Because this uses ECS style registry, syncing the Asset will automatically and immediately register 
-	 *		  in every element using the Asset
+	 *		  in every element using the Asset.
 	 * 
 	 * @brief 
 	 */

@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'new_project.ui'
+** Form generated from reading UI file 'empty_dialog.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_NEW_PROJECT_H
-#define UI_NEW_PROJECT_H
+#ifndef EMPTY_DIALOG_UI_H
+#define EMPTY_DIALOG_UI_H
 
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
@@ -291,4 +291,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_NEW_PROJECT_H
+#endif // EMPTY_DIALOG_UI_H

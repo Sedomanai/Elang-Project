@@ -27,158 +27,92 @@ set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 set(ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 
 set(ELANG_DEP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dep")
-set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/ext")
-set(ELANG_EXT_DIR "${CMAKE_INSTALL_PREFIX}")
-	set(CMAKE_INSTALL_INCLUDEDIR "include")
-	set(CMAKE_INSTALL_LIBDIR "lib")
-	set(CMAKE_INSTALL_DATAROOTDIR "lib")
-	set(ELANG_EXT_BIN_DIR "${ELANG_EXT_DIR}/bin")
-	set(ELANG_EXT_SRC_DIR "${ELANG_EXT_DIR}/src")
-	set(ELANG_EXT_LIB_DIR "${ELANG_EXT_DIR}/lib")
-
-## IMPORTANT: use this flag to set the installation flag
-option(ELANG_INSTALLATION "TURN ON INSTALLATION" ON)
-
 
 ##################### ELANG ######################
-if (NOT ELANG_INSTALLATION)
-	## Executables ##
 
-	# You cannot mix gui (qt) with engine (sdl). I mean you can, but the setup is more complicated than you think, and most of all it's not necessary.
-	if (ELANG_GUI) 
-		add_executable(elangqt "${ELANG_RUNS_DIR}/qt_test/main.cpp" "${ELANG_DIR}/elpch.cpp")
-		add_executable(elang_atlas_editor "${ELANG_RUNS_DIR}/atlas_editor/main.cpp" "${ELANG_DIR}/elpch.cpp")
-	else()
-		add_executable(elang "${ELANG_RUNS_DIR}/sdl_test/main.cpp" "${ELANG_RUNS_DIR}/sdl_test/test.cpp" "${ELANG_DIR}/engine.cpp" "src/elang/elpch.cpp")
-	endif()
-
-	## Entries ##
-	# You can set the target here. 
-	# Make sure you set the available targets according to related ELANG flags like ELANG_GUI
-	###### >>>>>>>
-		set(EL_TARGET elang_atlas_editor)
-
-	if (ELANG_GUI)
-		target_compile_definitions(${EL_TARGET} PRIVATE ELANG_GUI)
-	else()
-		target_compile_definitions(${EL_TARGET} PRIVATE ELANG_SDL)
-	endif()
-
-	## Compilation ##
-	set_target_properties(${EL_TARGET} PROPERTIES
-	  LINKER_LANGUAGE CXX
-	  CXX_STANDARD 17
-	)
-	target_compile_features(${EL_TARGET} PRIVATE cxx_std_17)
-	target_include_directories(${EL_TARGET} PRIVATE "${ELANG_SRC_DIR}")
-	target_precompile_headers(${EL_TARGET} PRIVATE "${ELANG_DIR}/elpch.h")
-	add_subdirectory("${ELANG_DIR}")
-	add_subdirectory("${ELANG_PROJ}/atlas_editor")
+## Executables ##
+# You cannot mix gui (qt) with engine (sdl). 
+# I mean you can, but the setup is more complicated than you think, and most of all it's not necessary.
+if (ELANG_GUI) 
+	add_executable(elangqt "${ELANG_RUNS_DIR}/qt_test/main.cpp" "${ELANG_DIR}/elpch.cpp")
+	add_executable(elang_atlas_editor "${ELANG_RUNS_DIR}/atlas_editor/main.cpp" "${ELANG_DIR}/elpch.cpp")
+else()
+	add_executable(elang_test "${ELANG_RUNS_DIR}/sdl_test/main.cpp" "${ELANG_RUNS_DIR}/sdl_test/test.cpp" "${ELANG_DIR}/engine.cpp" "${ELANG_DIR}/elpch.cpp")
 endif()
+
+## Entries ##
+# You can set the target here. 
+# Make sure you set the available targets according to related ELANG flags like ELANG_GUI
+###### >>>>>>>
+	set(EL_TARGET elang_atlas_editor)
+
+if (ELANG_GUI)
+	target_compile_definitions(${EL_TARGET} PRIVATE ELANG_GUI)
+else()
+	target_compile_definitions(${EL_TARGET} PRIVATE ELANG_SDL)
+endif()
+
+## Compilation ##
+set_target_properties(${EL_TARGET} PROPERTIES
+	LINKER_LANGUAGE CXX
+	CXX_STANDARD 17
+)
+target_compile_features(${EL_TARGET} PRIVATE cxx_std_17)
+target_include_directories(${EL_TARGET} PRIVATE "${ELANG_SRC_DIR}")
+target_precompile_headers(${EL_TARGET} PRIVATE "${ELANG_DIR}/elpch.h")
+add_subdirectory("${ELANG_DIR}")
+add_subdirectory("${ELANG_PROJ}/atlas_editor")
 
 ################# DEPENDENCIES ####################
-if (ELANG_INSTALLATION) 
-	##### INSTALLATION #####
-	message ("** Installing Elang Dependencies **")
-	
-	## QT / SDL2 ##
-	## It's not recommended to install QT/SDL2 directly as a git submodule.
-	## Instead, if you go to the dep/qtbase folder, you will see my other repo instead.
-	## Read the README.md of that repo and follow it closely to install them system-wide.
-	## Also, QtBase (mini-Qt) is all we need for this project. (Even that is more than we need.)
-	
-	## GLEW ##
-	set(BUILD_UTILS OFF)
-	add_subdirectory("${ELANG_DEP_DIR}/glew/build/cmake")
 
-	## Interface Libraries ##
-	add_subdirectory("${ELANG_DEP_DIR}/entt")
+## Please read the dependency_list.txt in the dep folder
+target_include_directories(${EL_TARGET} PRIVATE "${ELANG_DEP_DIR}/fpng/src")
 
-	set(TSL_ROBIN_MAP_ENABLE_INSTALL ON)
-	add_subdirectory("${ELANG_DEP_DIR}/robin-map")
-	add_subdirectory("${ELANG_DEP_DIR}/tweeny")
+if (ELANG_GUI)
+	## QT ##
+	find_package(Qt6 REQUIRED COMPONENTS Core GUI Widgets OPENGL OpenGLWidgets )
 
-	## Source Direct Copies ##
-	set(FPNG_SRC_DIR "${ELANG_DEP_DIR}/fpng/src")
-	install(FILES 
-		"${FPNG_SRC_DIR}/fpng.h"
- 		"${FPNG_SRC_DIR}/fpng.cpp"
- 		"${FPNG_SRC_DIR}/lodepng.h"
- 		"${FPNG_SRC_DIR}/lodepng.cpp"
-	DESTINATION "${ELANG_EXT_SRC_DIR}")
-	
-	## COPY BINARIES TO BIN ##
-	# 
-	# This doesn't work sometimes.
-	# Run installation again if no shared libs are copied to the runtime output folder.
-	#
-	if (ELANG_DEBUG)
-		file(GLOB ALL_BIN "${ELANG_EXT_BIN_DIR}/*d.dll" "${ELANG_EXT_BIN_DIR}/*d.so" "${ELANG_EXT_BIN_DIR}/*d.dylib")
-	else()
-		file(GLOB ALL_BIN "${ELANG_EXT_BIN_DIR}/*.dll" "${ELANG_EXT_BIN_DIR}/*.so" "${ELANG_EXT_BIN_DIR}/*.dylib" 
-		EXCLUDE "${ELANG_EXT_BIN_DIR}/*d.dll" EXCLUDE "${ELANG_EXT_BIN_DIR}/*d.so" EXCLUDE "${ELANG_EXT_BIN_DIR}/*d.dylib" )
-	endif()
-	install(FILES ${ALL_BIN} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-else()
-	##### LINKAGE #####
+	set_target_properties(${EL_TARGET} PROPERTIES AUTOMOC TRUE)
+	set_target_properties(${EL_TARGET} PROPERTIES AUTORCC TRUE)
 
-	### Global ###
-	#
-	# If you've set the paths to their config.cmake files in the system environment 
-	# then you don't need to append to CMAKE_PREFIX_PATH
-	#
-	if (ELANG_GUI)
-		## QT ##
-		# list(APPEND CMAKE_PREFIX_PATH "C:\Depcpp\Qt_6.5.0\install\lib\cmake")
-		find_package(Qt6 REQUIRED COMPONENTS Core GUI Widgets OPENGL OpenGLWidgets )
+	## Compile UIC ##
+	list(APPEND EL_FINAL_UI_LIST 
+		${EL_GUI_UI_LIST}
+		${EL_ATLAS_EDITOR_UI_LIST}
+	)
 
-		set_target_properties(${EL_TARGET} PROPERTIES AUTOMOC TRUE)
-		# set_target_properties(${EL_TARGET} PROPERTIES AUTOUIC TRUE) # We're doing this one manually
-		set_target_properties(${EL_TARGET} PROPERTIES AUTORCC TRUE)
-		## Compile UIC ##
-		list(APPEND EL_FINAL_UI_LIST 
-			${EL_GUI_UI_LIST}
-			${EL_ATLAS_EDITOR_UI_LIST}
+	qt_wrap_ui(EL_GUI_UI_H ${EL_FINAL_UI_LIST})
+	foreach(ui_file ${EL_FINAL_UI_LIST})
+		get_filename_component(ui_name ${ui_file} NAME_WE)
+		get_filename_component(ui_dir ${ui_file} DIRECTORY)
+		set(output_header_file "${ui_dir}/${ui_name}_ui.h")
+		list(APPEND EL_GUI_UI_H ${output_header_file})
+		add_custom_command(
+			OUTPUT ${output_header_file}
+			COMMAND Qt6::uic ARGS ${ui_file} -o ${output_header_file}
+			DEPENDS ${ui_file}
+			COMMENT "Generating UI header for ${ui_file}"
 		)
+	endforeach()
 
-		qt_wrap_ui(EL_GUI_UI_H ${EL_FINAL_UI_LIST})
-		foreach(ui_file ${EL_FINAL_UI_LIST})
-			get_filename_component(ui_name ${ui_file} NAME_WE)
-			get_filename_component(ui_dir ${ui_file} DIRECTORY)
-			set(output_header_file "${ui_dir}/ui_${ui_name}.h")
-			message("Hello?... ${output_header_file}")
-			list(APPEND EL_GUI_UI_H ${output_header_file})
-			add_custom_command(
-				OUTPUT ${output_header_file}
-				COMMAND Qt6::uic ARGS ${ui_file} -o ${output_header_file}
-				DEPENDS ${ui_file}
-				COMMENT "Generating UI header for ${ui_file}"
-			)
-		endforeach()
+	add_custom_target(EL_GUI_H_TARGET DEPENDS ${EL_GUI_UI_H})
+	add_dependencies(${EL_TARGET} EL_GUI_H_TARGET)
 
-		add_custom_target(EL_GUI_H_TARGET DEPENDS ${EL_GUI_UI_H})
-		add_dependencies(${EL_TARGET} EL_GUI_H_TARGET)
-
-		target_sources(${EL_TARGET} PUBLIC ${EL_GUI_UI_H})
-		target_link_libraries(${EL_TARGET} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets)
-	else()
-		## SDL ##
-		include("C:/Depcpp/SDL2/install/cmake/SDL2Config.cmake")
-		# find_package(SDL2)
-		target_link_libraries(${EL_TARGET} SDL2::SDL2main SDL2::SDL2)
-	endif()
-
-	## GLEW ##
-	find_package(OpenGL REQUIRED)
-	include("${ELANG_EXT_LIB_DIR}/cmake/glew/glew-config.cmake")
-	target_link_libraries(${EL_TARGET} GLEW::glew)
-
-	## Interface Library ##
-	include("${ELANG_EXT_LIB_DIR}/EnTT/cmake/EnTTConfig.cmake" NO_SYSTEM_FROM_IMPORTED)
-	include("${ELANG_EXT_LIB_DIR}/cmake/tsl-robin-map/tsl-robin-mapConfig.cmake" NO_SYSTEM_FROM_IMPORTED)
-	include("${ELANG_EXT_LIB_DIR}/cmake/tweeny/TweenyConfig.cmake" NO_SYSTEM_FROM_IMPORTED)
-	target_link_libraries(${EL_TARGET} EnTT::EnTT tsl::robin_map tweeny)
-	
-	## MISC ##
-	target_include_directories(${EL_TARGET} PRIVATE ${ELANG_EXT_SRC_DIR})
+	target_sources(${EL_TARGET} PUBLIC ${EL_GUI_UI_H})
+	target_link_libraries(${EL_TARGET} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets)
+else()
+	## SDL ##
+	find_package(SDL2 CONFIG REQUIRED)
+	target_link_libraries(${EL_TARGET}
+		PRIVATE
+		$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+		$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+	)
 endif()
+	
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(EnTT CONFIG REQUIRED)
+find_package(Tweeny CONFIG REQUIRED)
+find_package(tsl-robin-map CONFIG REQUIRED)
+target_link_libraries(${EL_TARGET} PRIVATE GLEW::GLEW tsl::robin_map tweeny) # EnTT::EnTT

@@ -1,8 +1,6 @@
 /.vs
-/inc
-/lib
-/ext
-/qto
 /out
+/lib
 /bin/Debug/
 /bin/Release/
+/bin/__el_gui/dat

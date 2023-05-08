@@ -12,6 +12,8 @@ namespace el
 		: AtlasSetup(parent), mSuppressClose(false) {
 		cout << "Connecting Atlas Editor..." << endl;
 
+		fio::create_directories("../__el_gui/dat");
+
 		string in;
 		if (el_file::load("../__el_gui/dat/data.config", in) == 0) {
 			stringer::iterate(in, '\n', [&](strview div, sizet index) {

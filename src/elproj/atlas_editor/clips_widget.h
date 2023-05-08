@@ -1,5 +1,5 @@
 #pragma once
-#include "ui_clips_widget.h"
+#include "clips_widget_ui.h"
 #include "elang/gui/extension/view.h"
 
 #include "elang/assets/camera.h"

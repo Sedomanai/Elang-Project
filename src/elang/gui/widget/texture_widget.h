@@ -9,7 +9,7 @@
  *********************************************************************/
 
 #pragma once
-#include "ui_texture_widget.h"
+#include "texture_widget_ui.h"
 
 #include "../extension/view.h"
 

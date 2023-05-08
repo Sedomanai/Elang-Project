@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_CLIPS_WIDGET_H
-#define UI_CLIPS_WIDGET_H
+#ifndef CLIPS_WIDGET_UI_H
+#define CLIPS_WIDGET_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -153,4 +153,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_CLIPS_WIDGET_H
+#endif // CLIPS_WIDGET_UI_H

@@ -35,7 +35,7 @@
 #ifdef ELANG_SDL
 #include <SDL2/SDL.h>
 #endif
-#include "GL/glew.h"
+#include <GL/glew.h>
 #include <tsl/robin_map.h>
 #include <tsl/robin_set.h>
 #include <entt/entt.hpp>

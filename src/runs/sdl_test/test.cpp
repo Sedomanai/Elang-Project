@@ -19,18 +19,17 @@ namespace el
 		gStage = gProject.make<Stage>();
 
 		AssetLoader loader;
-		loader.initNativeGUI();
-		loader.importAllNativeGUIAssets();
+		loader.initCommonAssets();
 		editor_mat = loader.createNativeGUIAsset<Material>("test_material", gMaterials);
 
-		loader.initProject("../test/");
+		loader.initProject("../__el_test");
 
 		tex = loader.sync.open<Texture, TextureMeta>("ash.png", gTextures);
 		atlas = loader.sync.open<Atlas, AtlasMeta>("ash.atls", gAtlases);
 		tex->atlas = atlas;
 		editor_mat->setTexture(gTextures.names["ash.png"]);
 
-		spritePainter = gProject.make<Painter>("shader/basic_sprite.vert", "shader/texture_uv.frag",
+		spritePainter = gProject.make<Painter>("shaders/basic_sprite.vert", "shaders/texture_uv.frag",
 			32, gCameras.names["main_cam"], Projection::eOrtho,
 			ePainterFlags::DEPTH_SORT | ePainterFlags::MULTI_MATERIAL | ePainterFlags::Z_CLEAR).add<EditorAsset>();
 		spritePainter->init();

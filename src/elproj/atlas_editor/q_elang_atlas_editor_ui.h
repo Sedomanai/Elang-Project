@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_Q_ELANG_ATLAS_EDITOR_H
-#define UI_Q_ELANG_ATLAS_EDITOR_H
+#ifndef Q_ELANG_ATLAS_EDITOR_UI_H
+#define Q_ELANG_ATLAS_EDITOR_UI_H
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
@@ -194,4 +194,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_Q_ELANG_ATLAS_EDITOR_H
+#endif // Q_ELANG_ATLAS_EDITOR_UI_H

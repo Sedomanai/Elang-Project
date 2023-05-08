@@ -1,5 +1,5 @@
 #pragma once
-#include "ui_q_elang_atlas_editor.h"
+#include "q_elang_atlas_editor_ui.h"
 #include "util.h"
 
 namespace el

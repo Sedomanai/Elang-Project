@@ -1,6 +1,6 @@
 #pragma once
 #include "elang/registry/project.h"
-#include "ui_q_ghost_dialog.h"
+#include "q_ghost_dialog_ui.h"
 
 namespace el
 {

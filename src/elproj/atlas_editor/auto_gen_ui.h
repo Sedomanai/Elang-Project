@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_AUTO_GEN_H
-#define UI_AUTO_GEN_H
+#ifndef AUTO_GEN_UI_H
+#define AUTO_GEN_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -120,4 +120,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_AUTO_GEN_H
+#endif // AUTO_GEN_UI_H

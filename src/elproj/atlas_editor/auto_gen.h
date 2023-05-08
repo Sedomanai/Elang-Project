@@ -4,7 +4,7 @@
 #include <qspinbox.h>
 #include "elang/common/string.h"
 
-#include "ui_auto_gen.h"
+#include "auto_gen_ui.h"
 
 namespace el
 {

@@ -3,7 +3,7 @@
 #include <qmessagebox.h>
 #include <qfiledialog>
 #include <qdialog>
-#include "../uic/ui_new_project.h"
+#include "new_project_ui.h"
 
 namespace el {
 

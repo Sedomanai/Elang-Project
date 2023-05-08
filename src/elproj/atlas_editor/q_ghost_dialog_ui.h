@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_Q_GHOST_DIALOG_H
-#define UI_Q_GHOST_DIALOG_H
+#ifndef Q_GHOST_DIALOG_UI_H
+#define Q_GHOST_DIALOG_UI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -250,4 +250,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_Q_GHOST_DIALOG_H
+#endif // Q_GHOST_DIALOG_UI_H

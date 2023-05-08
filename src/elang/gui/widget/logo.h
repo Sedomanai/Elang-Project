@@ -7,7 +7,7 @@
  * @date   September 2022
  *********************************************************************/
 #pragma once
-#include "ui_logo.h"
+#include "logo_ui.h"
 
 namespace el
 {
