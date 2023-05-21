@@ -6,18 +6,24 @@
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/ext",
-              "cacheVariables": {
-                "CMAKE_C_COMPILER": "cl.exe",
-                "CMAKE_CXX_COMPILER": "cl.exe",
+            "cacheVariables": {
+            // Make sure to set the appropriate CMAKE_TOOLCHAIN_FILE or CMAKE_PREFIX_PATH or whatever you need to find your packages.
+            "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
 
-                // Make sure to set the appropriate CMAKE_TOOLCHAIN_FILE or CMAKE_PREFIX_PATH or whatever you need to find your packages.
-                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "VCPKG_TARGET_TRIPLET": "x64-windows",
+            // this is for windows
+            "CMAKE_C_COMPILER": "cl.exe",
+            "CMAKE_CXX_COMPILER": "cl.exe",
+            "VCPKG_TARGET_TRIPLET": "x64-windows",
 
-                // Set this to false if you're using SDL. True if Qt.
-                "ELANG_GUI": true
-              },
+            // this is for emscripten
+            //"CMAKE_C_COMPILER": "emcc.bat",
+            //"CMAKE_CXX_COMPILER": "em++.bat",
+            //"VCPKG_TARGET_TRIPLET": "wasm32-emscripten",
+            //"VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "C:/emscripten/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+
+            // Set this to false if you're using SDL. True if Qt.
+            "ELANG_GUI": true
+          },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",

@@ -158,11 +158,8 @@ namespace el
 						return;
 					} i--;
 				}
-			}
-
-			functor(str, str);
+			} functor(str, str);
 		}
-
 
 		/**
 		 * (deprected) For details refer to <common/fileio.h>.

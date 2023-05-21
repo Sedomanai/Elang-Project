@@ -1,6 +1,6 @@
 #pragma once
 #include "clips_widget_ui.h"
-#include "elang/gui/extension/view.h"
+#include "elgui/extension/view.h"
 
 #include "elang/assets/camera.h"
 #include "elang/common/random.h"

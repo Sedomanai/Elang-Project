@@ -20,7 +20,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "elang/gui/extension/view.h"
+#include "elgui/extension/view.h"
 
 QT_BEGIN_NAMESPACE
 

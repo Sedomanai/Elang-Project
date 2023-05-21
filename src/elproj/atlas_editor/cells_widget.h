@@ -1,5 +1,5 @@
 #pragma once
-#include "elang/gui/widget/palette.h"
+#include "elgui/widget/palette.h"
 #include "util.h"
 
 namespace el

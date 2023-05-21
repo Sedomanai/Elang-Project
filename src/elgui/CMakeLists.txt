@@ -27,5 +27,4 @@ if (ELANG_GUI)
 		"${CMAKE_CURRENT_LIST_DIR}/widget/logo.ui"
 	)
 	set(EL_GUI_UI_LIST ${EL_GUI_UI_LIST} PARENT_SCOPE)
-
 endif()

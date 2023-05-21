@@ -13,10 +13,10 @@
 
 #include "../extension/view.h"
 
-#include "../../assets/camera.h"
-#include "../../elements/basic.h"
-#include "../../elements/sprite.h"
-#include "../../registry/asset.h"
+#include "elang/assets/camera.h"
+#include "elang/elements/basic.h"
+#include "elang/elements/sprite.h"
+#include "elang/registry/asset.h"
 #include <tweeny/tween.h>
 
 namespace el

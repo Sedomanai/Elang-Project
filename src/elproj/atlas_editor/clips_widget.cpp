@@ -1,7 +1,7 @@
 #include "elang/elpch.h"
 #include "clips_widget.h"
 
-#include "elang/gui/color_code.h"
+#include "elgui/color_code.h"
 
 #include "util.h"
 #include "elang/registry/project.h"

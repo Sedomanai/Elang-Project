@@ -17,6 +17,7 @@ endif()
 ##################### DIRECTORIES / OPTIONS ######################
 set(ELANG_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 	set(ELANG_DIR "${ELANG_SRC_DIR}/elang")
+	set(ELANG_GUI "${ELANG_SRC_DIR}/elgui")
 	set(ELANG_PROJ "${ELANG_SRC_DIR}/elproj")
 	set(ELANG_RUNS_DIR "${ELANG_SRC_DIR}/runs")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}")
@@ -25,8 +26,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
 set(ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
-
 set(ELANG_DEP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dep")
+set(ELANG_QRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/qrc")
 
 ##################### ELANG ######################
 
@@ -35,16 +36,18 @@ set(ELANG_DEP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dep")
 # I mean you can, but the setup is more complicated than you think, and most of all it's not necessary.
 if (ELANG_GUI) 
 	add_executable(elangqt "${ELANG_RUNS_DIR}/qt_test/main.cpp" "${ELANG_DIR}/elpch.cpp")
-	add_executable(elang_atlas_editor "${ELANG_RUNS_DIR}/atlas_editor/main.cpp" "${ELANG_DIR}/elpch.cpp")
+	add_executable(elang_atlas_editor "${ELANG_RUNS_DIR}/atlas_editor/main.cpp" "${ELANG_DIR}/elpch.cpp" "${ELANG_QRC_DIR}/resources.qrc")
+	add_executable(elang_main_editor "${ELANG_RUNS_DIR}/main_editor/main.cpp" "${ELANG_DIR}/elpch.cpp" "${ELANG_QRC_DIR}/resources.qrc")
 else()
 	add_executable(elang_test "${ELANG_RUNS_DIR}/sdl_test/main.cpp" "${ELANG_RUNS_DIR}/sdl_test/test.cpp" "${ELANG_DIR}/engine.cpp" "${ELANG_DIR}/elpch.cpp")
 endif()
+	add_executable(entt_lab "${ELANG_RUNS_DIR}/entt_lab/main.cpp" "${ELANG_DIR}/elpch.cpp" "${ELANG_RUNS_DIR}/entt_lab/reflection.h" "${ELANG_RUNS_DIR}/entt_lab/basic.h")
 
 ## Entries ##
 # You can set the target here. 
 # Make sure you set the available targets according to related ELANG flags like ELANG_GUI
 ###### >>>>>>>
-	set(EL_TARGET elang_atlas_editor)
+	set(EL_TARGET elang_main_editor)
 
 if (ELANG_GUI)
 	target_compile_definitions(${EL_TARGET} PRIVATE ELANG_GUI)
@@ -61,7 +64,12 @@ target_compile_features(${EL_TARGET} PRIVATE cxx_std_17)
 target_include_directories(${EL_TARGET} PRIVATE "${ELANG_SRC_DIR}")
 target_precompile_headers(${EL_TARGET} PRIVATE "${ELANG_DIR}/elpch.h")
 add_subdirectory("${ELANG_DIR}")
+
+if (ELANG_GUI)
+add_subdirectory("${ELANG_GUI}")
+add_subdirectory("${ELANG_PROJ}/main_editor")
 add_subdirectory("${ELANG_PROJ}/atlas_editor")
+endif()
 
 ################# DEPENDENCIES ####################
 
@@ -72,16 +80,13 @@ if (ELANG_GUI)
 	## QT ##
 	find_package(Qt6 REQUIRED COMPONENTS Core GUI Widgets OPENGL OpenGLWidgets )
 
-	set_target_properties(${EL_TARGET} PROPERTIES AUTOMOC TRUE)
-	set_target_properties(${EL_TARGET} PROPERTIES AUTORCC TRUE)
-
 	## Compile UIC ##
 	list(APPEND EL_FINAL_UI_LIST 
 		${EL_GUI_UI_LIST}
+		${EL_MAIN_EDITOR_UI_LIST}
 		${EL_ATLAS_EDITOR_UI_LIST}
 	)
-
-	qt_wrap_ui(EL_GUI_UI_H ${EL_FINAL_UI_LIST})
+	
 	foreach(ui_file ${EL_FINAL_UI_LIST})
 		get_filename_component(ui_name ${ui_file} NAME_WE)
 		get_filename_component(ui_dir ${ui_file} DIRECTORY)
@@ -97,8 +102,14 @@ if (ELANG_GUI)
 
 	add_custom_target(EL_GUI_H_TARGET DEPENDS ${EL_GUI_UI_H})
 	add_dependencies(${EL_TARGET} EL_GUI_H_TARGET)
+	# qt_wrap_ui(${EL_TARGET} EL_GUI_H_TARGET)
 
+	# qt_add_resources(EL_QT_RESOURCES "${ELANG_QRC}/resources.qrc")
 	target_sources(${EL_TARGET} PUBLIC ${EL_GUI_UI_H})
+	# target_sources(${EL_TARGET} PUBLIC ${EL_QT_RESOURCES})
+	set_target_properties(${EL_TARGET} PROPERTIES AUTOMOC TRUE)
+	set_target_properties(${EL_TARGET} PROPERTIES AUTORCC TRUE)
+
 	target_link_libraries(${EL_TARGET} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets)
 else()
 	## SDL ##

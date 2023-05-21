@@ -1,6 +1,6 @@
 #pragma once
-#include "elang/gui/extension/list.h"
-#include "elang/gui/widget/palette.h"
+#include "elgui/extension/list.h"
+#include "elgui/widget/palette.h"
 #include "elang/assets/atlas.h"
 #include "elang/assets/texture.h"
 #include "elang/assets/material.h"

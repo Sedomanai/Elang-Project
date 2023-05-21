@@ -1,8 +1,6 @@
 
 if(EL_TARGET STREQUAL "elang_atlas_editor")
 
-message("this shouldn't happen yet")
-
 target_sources(${EL_TARGET} PUBLIC
 	"atlas_setup.cpp"
 	"atlas_setup.h" #moc

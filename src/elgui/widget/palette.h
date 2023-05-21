@@ -12,9 +12,9 @@
 
 #pragma once
 #include "texture_widget.h"
-#include "../../elements/basic.h"
-#include "../../elements/button.h"
-#include "../../assets/cell.h"
+#include "elang/elements/basic.h"
+#include "elang/elements/button.h"
+#include "elang/assets/cell.h"
 
 namespace el {
 	struct Atlas;

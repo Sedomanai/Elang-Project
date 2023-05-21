@@ -11,7 +11,7 @@
 #include "elang/common/algorithm.h"
 #include "elang/systems/ui.h"
 
-#include "elang/gui/color_code.h"
+#include "elgui/color_code.h"
 
 namespace el
 {

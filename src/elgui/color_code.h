@@ -1,5 +1,5 @@
 #pragma once
-#include "../common/math.h"
+#include "elang/common/math.h"
 
 namespace el
 {

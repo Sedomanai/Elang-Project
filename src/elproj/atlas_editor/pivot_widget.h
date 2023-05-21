@@ -1,6 +1,6 @@
 #pragma once
 #include "ghost_dialog.h"
-#include "elang/gui/extension/view.h"
+#include "elgui/extension/view.h"
 
 #include "elang/assets/camera.h"
 #include "elang/elements/basic.h"
