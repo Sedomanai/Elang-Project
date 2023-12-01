@@ -20,9 +20,6 @@
             //"CMAKE_CXX_COMPILER": "em++.bat",
             //"VCPKG_TARGET_TRIPLET": "wasm32-emscripten",
             //"VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "C:/emscripten/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
-
-            // Set this to false if you're using SDL. True if Qt.
-            "ELANG_GUI": true
           },
             "condition": {
                 "type": "equals",
